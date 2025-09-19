@@ -1,0 +1,13 @@
+my_new_project: 
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      keyfile: gs://europe-west1-dbt-airflow-33db5cc2-bucket/access/testdbfordbt-472212-5e93c9130c7f.json
+      project: testdbfordbt-472212 
+      dataset: dbt_mjebari
+      threads: 1
+      timeout_seconds: 300
+      location: europe-west1
+      priority: interactive
