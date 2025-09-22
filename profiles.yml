@@ -9,5 +9,5 @@ my_new_project:
       dataset: dbt_mjebari
       threads: 1
       timeout_seconds: 300
-      location: europe-west1
+      location: US
       priority: interactive

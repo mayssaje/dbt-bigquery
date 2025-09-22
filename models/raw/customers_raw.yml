@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: customers_raw
+    description: "Table brute des clients"
+    columns:
+      - name: Id
+        description: ""
+        tests:
+          - not_null
+          - unique
