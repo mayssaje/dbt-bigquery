@@ -21,15 +21,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install dbt-core dbt-bigquery
 
-      - name: Check secret length
-        run: |
-          echo ${{ secrets.GCP_CREDENTIALS }} | wc -c
-
-      - name: Setup GCP credentials
-        run: |
-          echo "${{ secrets.GCP_CREDENTIALS }}" | base64 --decode > /tmp/gcp_key.json
-          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcp_key.json
-
 
       #  Vérifier la connexion à BigQuery
       - name: dbt debug
