@@ -1,0 +1,36 @@
+name: DBT CI
+
+on:
+  push:
+    branches:
+      - main   
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  dbt_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install dbt-core dbt-bigquery  # adapter selon ton entrepôt
+
+    - name: Run DBT deps
+      run: dbt deps
+
+    - name: Run DBT seeds (optionnel)
+      run: dbt seed --profiles-dir ./profiles
+
+    - name: Run DBT tests
+      run: dbt test --profiles-dir ./profiles
