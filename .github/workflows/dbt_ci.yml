@@ -11,17 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Récupérer le code
+      #  Récupérer le code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ Installer Python
+      #  Installer Python
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.11
 
-      # 3️⃣ Installer DBT et dépendances
+      # Installer DBT et dépendances
       - name: Install DBT
         run: |
           pip install dbt-core dbt-bigquery  # ou dbt-postgres selon ton profil
