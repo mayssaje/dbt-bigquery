@@ -1,50 +1,45 @@
-name: dbt CI
+name: DBT CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
 
 jobs:
-  dbt-build:
+  dbt-ci:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      # 1️⃣ Récupérer le code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      # 2️⃣ Installer Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: 3.11
 
-      - name: Install dbt BigQuery
-        run: pip install dbt-bigquery
-
-      - name: Configure GCP credentials
+      # 3️⃣ Installer DBT et dépendances
+      - name: Install DBT
         run: |
-          echo "${{ secrets.GCP_CREDENTIALS }}" > ${HOME}/gcp_credentials.json
+          pip install dbt-core dbt-bigquery  # ou dbt-postgres selon ton profil
 
-      - name: Set up profiles.yml
+      # 4️⃣ Copier le fichier profiles.yml dans ~/.dbt pour que DBT le trouve
+      - name: Setup DBT profiles
         run: |
           mkdir -p ~/.dbt
-          echo "
-          my_project:
-            outputs:
-              dev:
-                type: bigquery
-                method: service-account
-                project: <TON_PROJECT_ID>
-                dataset: dbt_ci
-                keyfile: ${HOME}/gcp_credentials.json
-            target: dev
-          " > ~/.dbt/profiles.yml
+          cp ./profiles.yml ~/.dbt/profiles.yml
 
-      - name: Install dependencies
-        run: dbt deps
+      # 5️⃣ Vérifier le projet (compile)
+      - name: DBT Compile
+        run: dbt compile
 
-      - name: Run dbt compile
-        run: dbt compile --profiles-dir .
+      # 6️⃣ Exécuter les seeds
+      - name: DBT Seed
+        run: dbt seed
 
-      - name: Run dbt tests
-        run: dbt test --profiles-dir .
+      # 7️⃣ Exécuter les tests sur le target CI
+      - name: DBT Test
+        run: dbt test --target ci
