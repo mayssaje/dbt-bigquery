@@ -44,7 +44,7 @@ jobs:
         run: dbt deps
 
       - name: Run dbt compile
-        run: dbt compile --profiles-dir ~/.dbt
+        run: dbt compile --profiles-dir 
 
       - name: Run dbt tests
-        run: dbt test --profiles-dir ~/.dbt
+        run: dbt test --profiles-dir 
