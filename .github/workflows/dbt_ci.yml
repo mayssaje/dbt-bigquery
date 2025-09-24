@@ -21,7 +21,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install dbt-core dbt-bigquery
 
-
+      - name: Setup GCP credentials from GCS
+        run: |
+          pip install google-cloud-storage
+          gsutil cp gs://europe-west1-dbt-airflow-33db5cc2-bucket/access/testdbfordbt-472212-5e93c9130c7f.json /tmp/gcp_key.json
+          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcp_key.json
+          
+      - name: Replace keyfile in profiles.yml
+        run: |
+          cp profiles.yml profiles_backup.yml
+          sed -i "s|gs://europe-west1-dbt-airflow-33db5cc2-bucket/access/testdbfordbt-472212-5e93c9130c7f.json|/tmp/gcp_key.json|" profiles.yml
       #  Vérifier la connexion à BigQuery
       - name: dbt debug
         run: dbt debug --profiles-dir ./ --profile my_new_project
