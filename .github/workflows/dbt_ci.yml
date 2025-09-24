@@ -23,8 +23,8 @@ jobs:
 
       # 3️⃣ Vérifier la connexion à BigQuery
       - name: dbt debug
-        run: dbt debug --profiles-dir ./
-
+        run: dbt debug --profiles-dir ./ --profile my_new_project
+        
       # 4️⃣ Lancer dbt run et test
       - name: dbt run
         run: dbt run --profiles-dir ./
