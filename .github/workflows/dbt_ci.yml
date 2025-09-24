@@ -11,21 +11,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Récupérer le code
+      #  Récupérer le code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ Installer Python et dbt BigQuery
+      #  Installer Python et dbt BigQuery
       - name: Setup Python and dbt
         run: |
           python -m pip install --upgrade pip
           pip install dbt-core dbt-bigquery
 
-      # 3️⃣ Vérifier la connexion à BigQuery
-      - name: dbt debug
-        run: dbt debug --profiles-dir ./
 
-      # 4️⃣ Lancer dbt run et test
+      #  Vérifier la connexion à BigQuery
+      - name: dbt debug
+        run: dbt debug --profiles-dir ./ --profile my_new_project
+        
+      #  Lancer dbt run et test
       - name: dbt run
         run: dbt run --profiles-dir ./
 
