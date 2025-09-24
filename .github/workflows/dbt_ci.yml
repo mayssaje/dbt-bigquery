@@ -26,20 +26,8 @@ jobs:
         run: |
           pip install dbt-core dbt-bigquery  # ou dbt-postgres selon ton profil
 
-      # 4️⃣ Copier le fichier profiles.yml dans ~/.dbt pour que DBT le trouve
-      - name: Setup DBT profiles
-        run: |
-          mkdir -p ~/.dbt
-          cp ./profiles.yml ~/.dbt/profiles.yml
-
-      # 5️⃣ Vérifier le projet (compile)
-      - name: DBT Compile
-        run: dbt compile
-
-      # 6️⃣ Exécuter les seeds
-      - name: DBT Seed
-        run: dbt seed
-
-      # 7️⃣ Exécuter les tests sur le target CI
-      - name: DBT Test
-        run: dbt test --target ci
+      - name: Run dbt test
+        run: dbt test --profiles-dir ./
+        
+      - name: dbt run
+        run: dbt run --profiles-dir ./    
