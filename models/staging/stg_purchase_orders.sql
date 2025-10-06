@@ -3,4 +3,6 @@ with source as (
         *
     from {{ source('raw', 'purchase_orders') }}
 )
-select * from source
+select *,
+current_timestamp() as ingestion_timestamp
+ from source

@@ -7,6 +7,7 @@ sources:
     tables:
       - name: customers
       - name: employees
+      - name: employee_privileges
       - name: invoices 
       - name: suppliers
       - name: products 
