@@ -5,8 +5,8 @@ my_new_project:
       type: bigquery
       method: service-account
       #keyfile: gs://europe-west1-dbt-airflow-33db5cc2-bucket/access/testdbfordbt-472212-5e93c9130c7f.json
-      project: testdbfordbt-472212 
-      dataset: dbt_staging
+      #project: testdbfordbt-472212 
+      #dataset: dbt_staging
       threads: 1
       timeout_seconds: 300
       #location: EU

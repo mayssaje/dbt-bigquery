@@ -41,4 +41,10 @@ models:
       +schema: dbt_staging 
       +enabled: true
       +materialized: table
+    warhouse:
+      +schema: dbt_warhouse 
+      +enabled: true
+      +materialized: table
+      dim_date: 
+        +materialized: view
 
