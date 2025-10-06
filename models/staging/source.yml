@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: raw          
+    database: testdbfordbt-472212             # nom logique de la source (c’est ce que tu appelles dans source('raw', ...)
+    schema: dbt_raw                     # ton dataset BigQuery qui contient la table
+    tables:
+      - name: customers_raw
+      
