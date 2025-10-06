@@ -4,10 +4,10 @@ my_new_project:
     dev:
       type: bigquery
       method: service-account
-      keyfile: /tmp/gcp_key.json #gs://europe-west1-dbt-airflow-33db5cc2-bucket/access/testdbfordbt-472212-5e93c9130c7f.json
+      keyfile: gs://europe-west1-dbt-airflow-33db5cc2-bucket/access/testdbfordbt-472212-5e93c9130c7f.json
       project: testdbfordbt-472212 
-      dataset: dbt_mjebari
+      dataset: dbt_raw
       threads: 1
       timeout_seconds: 300
-      location: US
+      location: EU
       priority: interactive
