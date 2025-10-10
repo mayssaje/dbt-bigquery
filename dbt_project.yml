@@ -7,7 +7,7 @@ version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'default'
+profile: 'my_new_project'
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -34,14 +34,20 @@ clean-targets:         # directories to be removed by `dbt clean`
 # instead be materialized as tables. Any models you add to the root of the models folder will 
 # continue to be built as views. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
-dispatch:
-  - macro_namespace: dbt_external_tables
-    search_order: ['dbt_external_tables', 'dbt']
 
 models:
   my_new_project:
-    # Applies to all files under models/
     staging:
+      +schema: dbt_staging 
       +enabled: true
       +materialized: table
-
+    warhouse:
+      +schema: dbt_warhouse 
+      +enabled: true
+      +materialized: table
+      dim_date: 
+        +materialized: view
+    analytics_obt:
+      +schema: dbt_obt
+      +enabled: true
+      +materialized: table
