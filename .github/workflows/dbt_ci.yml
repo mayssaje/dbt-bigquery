@@ -15,7 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      #  Installer Python et dbt BigQuery
+      #  Installer dbt BigQuery
       - name: Setup dbt
         run: |
           pip install dbt-core dbt-bigquery
