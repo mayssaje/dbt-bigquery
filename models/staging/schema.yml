@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  #table stg_invoicesa
+  - name: stg_orders_status
+    columns:
+      - name: status_name
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - "Shipped"
+                - "Closed"
+                - "Invoiced"
+                - "New"
+    #table stg_inventory_transactions
+  - name: stg_inventory_transactions
+    columns: 
+      - name: quantity
+        tests:
+          - not_null:
+              #warn_if: "=0"
+              error_if: "<0"
+ 

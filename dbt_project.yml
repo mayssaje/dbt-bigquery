@@ -51,3 +51,6 @@ models:
       +schema: dbt_obt
       +enabled: true
       +materialized: table
+tests: 
+  my_new_project: 
+  +severity: warn
