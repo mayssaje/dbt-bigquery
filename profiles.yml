@@ -9,5 +9,4 @@ my_new_project:
       #dataset: dbt_staging
       threads: 1
       timeout_seconds: 300
-      #location: EU
       priority: interactive

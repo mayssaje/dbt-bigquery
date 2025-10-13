@@ -23,7 +23,7 @@
     )
     OPTIONS (
         format = "CSV",
-        uris = ["gs://europe-west1-dbt-airflow-33db5cc2-bucket/data/employees.csv"],
+        uris = ["gs://dbt_projet/data/employees.csv"],
         skip_leading_rows = 1,
         field_delimiter = ","
     );

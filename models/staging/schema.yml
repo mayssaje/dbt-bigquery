@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  #table stg_orders_status
+  - name: stg_orders_status
+    columns:
+      - name: status_name
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - "Shipped"
+                - "Closed"
+                - "Invoiced"
+                - "New"
+
+    #table stg_inventory_transactions
+  - name: stg_inventory_transactions
+    columns: 
+      - name: quantity
+        tests:
+          - not_null:
+              warn_if: "=0"
+              error_if: "<0"
+  #stg_products#
+  - name: stg_products
+    columns: 
+      - name: standard_cost
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0  
+              max_value: 30
+          - dbt_utils.expression_is_true: 
+              expression: "<= list_price"
+
+  - name: stg_purchase_orders
+    columns: 
+      - name: approved_date
+        tests: 
+          - dbt_utils.expression_is_true: 
+              expression: ">= submitted_date"
+              where: "submitted_date IS NOT NULL AND approved_date IS NOT NULL"
+
