@@ -8,7 +8,7 @@ with source as (
     select
     id as inventory_id , 
     transaction_type, 
-    DATE (transaction_created_date) as ,
+    DATE (transaction_created_date) as transaction_created_date ,
     transaction_modified_date,
     product_id,
     quantity,
@@ -28,6 +28,6 @@ unique_source as (
 )
 
 select *
-except ( row_number),
+except ( row_number)
 from unique_source 
 where row_number =1
