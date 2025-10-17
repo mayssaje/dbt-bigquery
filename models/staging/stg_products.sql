@@ -15,7 +15,8 @@ with source as (
     category,
     attachments
     from {{ source('raw', 'products') }}
-    where supplier_ids not like '%;%'
+    where supplier_ids not like '%;%' 
+    AND  list_price > standard_cost 
 )
 select *,
 current_timestamp() as ingestion_timestamp
