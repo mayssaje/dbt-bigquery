@@ -11,7 +11,7 @@ WITH source AS (
        *,
         CURRENT_TIMESTAMP() AS last_updated ,
         ROW_NUMBER() OVER (PARTITION BY id ORDER BY CURRENT_TIMESTAMP()  DESC) AS row_num
-    FROM `dbt_raw.customers`
+    FROM `dbt_mjebari.customers`
 )
 
 
