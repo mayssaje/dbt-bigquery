@@ -1,7 +1,7 @@
 {%- macro create_external_customers_table() -%}
 
   {% set create_table %}
-    CREATE OR REPLACE EXTERNAL TABLE `dbt_raw.customers` (
+    CREATE OR REPLACE EXTERNAL TABLE `dbt_mjebari.customers` (
     id INT64,
     company STRING,
     last_name STRING,
