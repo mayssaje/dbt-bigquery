@@ -23,7 +23,7 @@
     )
     OPTIONS(
       format = "CSV",
-      uris = ['gs://dbt_projet/data/customer.csv'], 
+      uris = ['gs://dbt_projet/data/customers/customer_*.csv'], 
       skip_leading_rows = 1, 
       field_delimiter = ","
     );

@@ -41,3 +41,17 @@ models:
               expression: ">= submitted_date"
               where: "submitted_date IS NOT NULL AND approved_date IS NOT NULL"
 
+#unit_tests:
+  #- name: test_prices
+ #   model:  stg_products
+ #   given:
+    #- input: ref('stg_products')
+   #   rows:
+   #       - { product_id: 1, standard_cost: 10.0, list_price: 15.0 }
+    #      - { product_id: 2, standard_cost: 5.0,  list_price: 5.0 }    
+    #      - { product_id: 3, standard_cost: 20.0, list_price: 30.0 }
+        
+    #expect:
+    #  rows:
+    #    - { product_id: 1, standard_cost: 10.0, list_price: 15.0 }
+     #   - { product_id: 3, standard_cost: 20.0, list_price: 30.0 }
