@@ -23,4 +23,4 @@ SELECT *
 EXCEPT (row_number)
 FROM unique_source
 WHERE row_number = 1
-;
+
