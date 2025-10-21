@@ -1,26 +1,26 @@
-with source as (
-select 
-    id  as customer_id,
-    company,
-    last_name,
-    first_name,
-    email_address,
-    job_title,
-    mobile_phone,
-    address,
-    current_timestamp() as ingestion_timestamp
-from {{ ref('stg_customers') }}
-
+WITH source AS (
+    SELECT
+        id AS customer_id,
+        company,
+        last_name,
+        first_name,
+        email_address,
+        job_title,
+        mobile_phone,
+        address,
+        current_timestamp() AS ingestion_timestamp
+    FROM {{ ref('stg_customers') }}
 ),
-unique_source as (
-    select *, 
-    row_number() over(partition by customer_id) as row_number
-    from source
+
+unique_source AS (
+    SELECT
+        *,
+        ROW_NUMBER() OVER (PARTITION BY customer_id) AS row_number
+    FROM source
 )
 
-
-select *
-except (row_number),
-from unique_source 
-where row_number =1
-
+SELECT *
+EXCEPT (row_number)
+FROM unique_source
+WHERE row_number = 1
+;
