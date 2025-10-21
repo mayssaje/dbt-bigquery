@@ -47,11 +47,6 @@ models:
       +materialized: table
       dim_date: 
         +materialized: view
-    analytics_obt:
-      +schema: dbt_obt
-      +enabled: true
-      +materialized: table
-    #raw: 
       #+materialized: table
 tests: 
   my_new_project: 
