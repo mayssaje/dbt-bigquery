@@ -8,50 +8,39 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values:
-                - "Shipped"
-                - "Closed"
-                - "Invoiced"
-                - "New"
+              arguments:
+                values:
+                  - "Shipped"
+                  - "Closed"
+                  - "Invoiced"
+                  - "New"
 
     #table stg_inventory_transactions
   - name: stg_inventory_transactions
-    columns: 
+    columns:
       - name: quantity
         tests:
           - not_null:
-              warn_if: "=0"
-              error_if: "<0"
-  #stg_products#
+              config:
+                warn_if: "=0"
+                error_if: "<0"
   - name: stg_products
-    columns: 
+    columns:
       - name: standard_cost
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
-              min_value: 0  
-              max_value: 30
-          - dbt_utils.expression_is_true: 
-              expression: "<= list_price"
-
+              arguments:
+                min_value: 0
+                max_value: 30
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "<= list_price"
   - name: stg_purchase_orders
-    columns: 
+    columns:
       - name: approved_date
-        tests: 
-          - dbt_utils.expression_is_true: 
-              expression: ">= submitted_date"
-              where: "submitted_date IS NOT NULL AND approved_date IS NOT NULL"
-
-#unit_tests:
-  #- name: test_prices
- #   model:  stg_products
- #   given:
-    #- input: ref('stg_products')
-   #   rows:
-   #       - { product_id: 1, standard_cost: 10.0, list_price: 15.0 }
-    #      - { product_id: 2, standard_cost: 5.0,  list_price: 5.0 }    
-    #      - { product_id: 3, standard_cost: 20.0, list_price: 30.0 }
-        
-    #expect:
-    #  rows:
-    #    - { product_id: 1, standard_cost: 10.0, list_price: 15.0 }
-     #   - { product_id: 3, standard_cost: 20.0, list_price: 30.0 }
+        tests:
+          - dbt_utils.expression_is_true:
+              config:
+                where: "submitted_date IS NOT NULL AND approved_date IS NOT NULL"
+              arguments:
+                expression: ">= submitted_date"
