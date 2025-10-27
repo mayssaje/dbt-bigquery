@@ -1,4 +1,3 @@
-
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
@@ -7,7 +6,7 @@ version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'mayssa_aubay'
+#profile: 
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -18,8 +17,6 @@ test-paths: ["tests"]
 seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
-
-target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
@@ -37,28 +34,37 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 
 
-on-run-start: 
-  - "CREATE TABLE IF NOT EXISTS {{ target.schema }}.audit_log (
-    model_name string,
-     run_timestamp TIMESTAMP
-    )"
+on-run-start:
+  - "CREATE TABLE IF NOT EXISTS monitoring.audit_log ( model_name STRING, status STRING, started_at TIMESTAMP, finished_at TIMESTAMP, duration_seconds FLOAT64 )"
+  - CREATE TABLE IF NOT EXISTS monitoring.details_execution (model_name STRING, status STRING, started_at TIMESTAMP, finished_at TIMESTAMP, duration_seconds FLOAT64, run_id STRING, environment STRING, user STRING, project_name STRING, models_success INT64, models_failed INT64, total_models INT64, execution_status STRING, error_message STRING);
+
+
+on-run-end:
+  - "{{ notify_run_end() }}"
 
 
 models:
   my_new_project:
     staging:
+      +schema: dbt_staging
+      +enabled: true
+      +materialized: table
+      +pre-hook: #Insérer des logs après chaque modèle & donne automatiquement les droits d’accès à ton rôle analytique
+          - "INSERT INTO  monitoring.audit_log VALUES ('{{ this }}','started' ,CURRENT_TIMESTAMP(),NULL,NULL)"
+          #- "GRANT SELECT ON {{ this }} TO ROLE analyst_readonly"
       +post-hook:
-        - "INSERT INTO  {{ target.schema }}.audit_log VALUES ('{{ this }}', CURRENT_TIMESTAMP)"
-      +schema: dbt_staging 
-      +enabled: true
-      +materialized: table
+        - UPDATE monitoring.audit_log SET status='completed', finished_at=CURRENT_TIMESTAMP(), duration_seconds=TIMESTAMP_DIFF(CURRENT_TIMESTAMP(), started_at, SECOND) WHERE model_name='{{ this }}' AND finished_at IS NULL;
     warhouse:
-      +schema: dbt_warhouse 
+      +schema: dbt_warhouse
       +enabled: true
       +materialized: table
-      dim_date: 
+      dim_date:
         +materialized: view
-      #+materialized: table
-tests: 
-  my_new_project: 
+      +post-hook: #Insérer des logs après chaque modèle & donne automatiquement les droits d’accès à ton rôle analytique
+          - "INSERT INTO  monitoring.audit_log VALUES ('{{ this }}','started' ,CURRENT_TIMESTAMP(),NULL,NULL)"
+          #- "GRANT SELECT ON {{ this }} TO ROLE analyst_readonly"
+tests:
+  my_new_project:
   +severity: warn
+flags:
+  require_generic_test_arguments_property: true
