@@ -1,7 +1,7 @@
 with source as (
     select
     p.id as product_id,
-    p.product_code,
+    p.product_code as product_reference,
     p.product_name,
     p.description,
     s.company as supplier_company,
