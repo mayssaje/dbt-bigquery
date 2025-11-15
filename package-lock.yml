@@ -11,7 +11,10 @@ packages:
   - name: dbt_expectations
     package: metaplane/dbt_expectations
     version: 0.8.5
+  - name: elementary
+    package: elementary-data/elementary
+    version: 0.20.1
   - name: dbt_date
     package: calogica/dbt_date
     version: 0.7.2
-sha1_hash: f63b2ea1251954be5c1903c6b54b6d15e2cc79d6
+sha1_hash: efba2e4667722bc38212e8733d6271ac49832a68
