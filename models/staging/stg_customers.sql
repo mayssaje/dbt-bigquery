@@ -1,6 +1,7 @@
 {{config(
     materialized='incremental',
     unique_key='id',
+    incremental_strategy="merge"
 )}}
 
 with source as (
@@ -30,7 +31,7 @@ with source as (
                 '||', COALESCE(CAST(attachments AS STRING), '')
             )
         )) AS row_hash
-    from {{ source('raw', 'customers') }}
+    from {{ source('raw', 'customer') }}
 
 ),
 
